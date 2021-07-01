@@ -1,6 +1,7 @@
 import os
 import unittest
 
+from src.utils import render_file
 from tests.rendering import rendering
 
 
