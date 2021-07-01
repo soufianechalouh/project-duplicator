@@ -1,3 +1,5 @@
+import os
+
 import chevron
 
 
@@ -10,4 +12,8 @@ def render_file(file_path, rules):
 
 
 def render_tree(tree_path, rules):
-    pass
+    directory = os.fsencode(tree_path)
+    files_list = os.listdir(directory)
+    for file in files_list:
+        file_path = f"{tree_path}/{file.decode('utf-8')}"
+        render_file(file_path, rules)
