@@ -19,6 +19,11 @@ class TestUtils(unittest.TestCase):
         Path("./template_dir_test/").mkdir(parents=True, exist_ok=True)
         with open(f"./template_dir_test/{self.test_file_path}", "w") as f:
             f.write('Sample {{old_text}}')
+        Path("./template_nested_dir_test/nest/").mkdir(parents=True, exist_ok=True)
+        with open(f"./template_nested_dir_test/nest/{self.test_file_path}", "w") as f:
+            f.write('Sample {{old_text}}')
+        with open(f"./template_nested_dir_test/{self.test_file_path}", "w") as f:
+            f.write('Sample {{old_text}}')
 
     def test_render_file(self):
         render_file(self.test_file_path, rendering)
@@ -29,7 +34,16 @@ class TestUtils(unittest.TestCase):
         dst = self.test_copied_dir
         copy_tree("template_dir_test", dst)
         render_tree(dst, rendering)
-        with open(f"./{self.test_copied_dir}/{self.test_file_path}", "r") as f:
+        with open(f"./{dst}/{self.test_file_path}", "r") as f:
+            self.assertIn("new_text", f.read())
+
+    def test_render_nested_directory(self):
+        dst = self.test_copied_dir
+        copy_tree("template_nested_dir_test", dst)
+        render_tree(dst, rendering)
+        with open(f"./{dst}/{self.test_file_path}", "r") as f:
+            self.assertIn("new_text", f.read())
+        with open(f"./{dst}/nest/{self.test_file_path}", "r") as f:
             self.assertIn("new_text", f.read())
 
     def tearDown(self):
