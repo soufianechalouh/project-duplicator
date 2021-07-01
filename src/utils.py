@@ -16,4 +16,7 @@ def render_tree(tree_path, rules):
     files_list = os.listdir(directory)
     for file in files_list:
         file_path = f"{tree_path}/{file.decode('utf-8')}"
-        render_file(file_path, rules)
+        if os.path.isdir(f"{file_path}"):
+            render_tree(file_path, rules)
+        else:
+            render_file(file_path, rules)
