@@ -1,6 +1,8 @@
 import os
+import shutil
 
 import chevron
+from rendering import rendering
 
 
 def render_file(file_path, rules):
@@ -20,3 +22,15 @@ def render_tree(tree_path, rules):
             render_tree(file_path, rules)
         else:
             render_file(file_path, rules)
+
+
+def make_a_twin(source, destination):
+    try:
+        shutil.copytree(source, destination)
+    except FileExistsError:
+        print("Exception: Folder exists already. please delete it and re-run the program")
+        exit()
+    except Exception as e:
+        print(e)
+        exit()
+    render_tree(destination, rendering)
