@@ -7,3 +7,7 @@ def render_file(file_path, rules):
         f.seek(0)
         f.truncate()
         f.write(rendered_text)
+
+
+def render_tree(tree_path, rules):
+    pass
