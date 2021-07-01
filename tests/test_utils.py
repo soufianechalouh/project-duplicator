@@ -6,15 +6,17 @@ from tests.rendering import rendering
 
 class TestUtils(unittest.TestCase):
 
+    test_file_path = "./sample_template_file.txt"
+
     def setUp(self):
-        with open("sample_template_file.txt", "w") as f:
+        with open(self.test_file_path, "w") as f:
             f.write('Sample {{old_text}}')
 
     def test_render_file(self):
-        render_file("./sample_template_file.txt", rendering)
-        with open("./sample_template.txt", "r") as f:
+        render_file(self.test_file_path, rendering)
+        with open(self.test_file_path, "r") as f:
             self.assertIn("new_text", f.read())
 
     def tearDown(self):
-        if os.path.exists("sample_template_file.txt"):
-            os.remove("sample_test_file.txt")
+        if os.path.exists(self.test_file_path):
+            os.remove(self.test_file_path)
